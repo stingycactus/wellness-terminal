@@ -1,3 +1,18 @@
+async function sendToServer(command, args) {
+    try {
+        const response = await fetch('/api/command/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ command: command, args: args })
+        })
+        const data = await response.json()
+        return data.output || 'no response from server'
+    } catch (error) {
+        console.log('Server error:', error)
+        return 'error: could not reach server'
+    }
+}
+
 const commands = {
     // args: string[] — e.g. ['username', 'pass123']
     help: {
@@ -25,6 +40,24 @@ const commands = {
         description: "Login to an existing account",
         handler: (args) => {
             console.log(`login called — username: ${args[0]}, password: ${args[1]}`)
+        }
+    },
+    focus: {
+        args: -1, // -1 because it can any number of args
+        usage: "focus <area1> <area2> ...",
+        description: "Set some focus areas, such as sleep, confidence, etc",
+        handler: async (args) => {
+            const output = await sendToServer('focus', args)
+            console.log(output)
+        }
+    },
+    reset: { // for debugging
+        args: 0,
+        usage: "reset",
+        description: "Clears session storage",
+        handler: async (args) => {
+            const output = await sendToServer('reset', args)
+            console.log(output)
         }
     }
 }
