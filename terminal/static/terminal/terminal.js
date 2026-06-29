@@ -16,7 +16,6 @@ async function sendToServer(command, args) {
 const commands = {
     // args: string[] — e.g. ['username', 'pass123']
     help: {
-        args: 0,
         usage: "help",
         description: "Shows available commands with info",
         handler: (args) => {
@@ -27,7 +26,6 @@ const commands = {
         }
     },
     register: {
-        args: 2,
         usage: "register <name> <pass>",
         description: "Register to make an account",
         handler: (args) => {
@@ -35,7 +33,6 @@ const commands = {
         }
     },
     login: {
-        args: 2,
         usage: "login <name> <pass>",
         description: "Login to an existing account",
         handler: (args) => {
@@ -43,16 +40,30 @@ const commands = {
         }
     },
     focus: {
-        args: -1, // -1 because it can any number of args
-        usage: "focus <area1> <area2> ...",
+        usage: "focus [area1] [area2] ...",
         description: "Set some focus areas, such as sleep, confidence, etc",
         handler: async (args) => {
             const output = await sendToServer('focus', args)
             console.log(output)
         }
     },
+    get_quests: {
+        usage: "get_quests [--new]",
+        description: "Generate quests based on your focus areas and difficulty",
+        handler: async (args) => {
+            const output = await sendToServer('get_quests', args)
+            console.log(output)
+        }
+    },
+    difficulty: {
+        usage: "difficulty <easy/medium/hard/...>",
+        description: "Increase difficulty of newly generated quests",
+        handler: async (args) => {
+            const output = await sendToServer('difficulty', args)
+            console.log(output)
+        }
+    },
     reset: { // for debugging
-        args: 0,
         usage: "reset",
         description: "Clears session storage",
         handler: async (args) => {
@@ -62,7 +73,7 @@ const commands = {
     }
 }
 
-function handleCommand (raw) {
+async function handleCommand (raw) {
     if (!raw.trim()) return // checks if raw is empty
 
     const parts = raw.trim().split(' ') // splits each word into parts array
@@ -76,14 +87,7 @@ function handleCommand (raw) {
         return
     }
     
-    const cmd = commands[command]
-
-    if (cmd.args !== -1 && args.length !== cmd.args) {
-        console.log(`${cmd.usage} \t ${cmd.description}`)
-        return
-    }
-
-    cmd.handler(args)
+    await commands[command].handler(args)
 }
 
 const input = document.getElementById('terminalInput')
