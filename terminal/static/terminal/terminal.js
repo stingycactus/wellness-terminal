@@ -16,6 +16,7 @@ async function sendToServer(command, args) {
 const windowElement = document.querySelector('.window')
 const closeButton = document.getElementById('closeButton')
 const minimizeButton = document.getElementById('minimizeButton')
+const maximizedButton = document.getElementById('maximizeButton')
 
 closeButton.addEventListener('click', () => {
     windowElement.remove()
@@ -23,6 +24,10 @@ closeButton.addEventListener('click', () => {
 
 minimizeButton.addEventListener('click', () => {
     windowElement.classList.toggle('minimized')
+})
+
+maximizeButton.addEventListener('click', () => {
+    windowElement.classList.toggle('maximized')
 })
 
 function formatSessionStart() {
@@ -43,7 +48,7 @@ document.getElementById('sessionStart').innerHTML = formatSessionStart()
 function appendLine(text, className = 'terminal-line') {
     const line = document.createElement('div')
     line.className = className
-    line.textContent = text
+    line.innerHTML = text
 
     const commandLine = document.querySelector('.command-line')
     commandLine.parentNode.insertBefore(line, commandLine)
@@ -51,6 +56,7 @@ function appendLine(text, className = 'terminal-line') {
 
 function clearLine() {
     document.querySelectorAll('.terminal-line').forEach(line => line.remove())
+    document.querySelectorAll('.terminal-command').forEach(line => line.remove())
 }
 
 const commands = {
@@ -91,9 +97,9 @@ const commands = {
         usage: "get_quests [--new]",
         description: "Generate quests based on your focus areas and difficulty",
         handler: async (args) => {
-            console.log("Generating quests...") // generation is slow, putting as buffer but not permanent solution, if quests are already generated, this still displays even tho they output instantly
+            appendLine("Generating quests...") // generation is slow, putting as buffer but not permanent solution, if quests are already generated, this still displays even tho they output instantly
             const output = await sendToServer('get_quests', args)
-            console.log(output)
+            appendLine(output)
         }
     },
     difficulty: {
@@ -122,9 +128,9 @@ const commands = {
     refresh_quest: {
         usage: "refresh_quest <number>",
         handler: async (args) => {
-            console.log("Refreshing quest...")
+            appendLine("Refreshing quest...")
             const output = await sendToServer('refresh_quest', args)
-            console.log(output)
+            appendLine(output)
         }
     }
 }
@@ -136,10 +142,10 @@ async function handleCommand (raw) {
     const command = parts[0].toLowerCase()
     const args = parts.slice(1) // args is from 1st elem in array upwards ['register' 'user' 'pass'] => ['user' 'pass']
 
-    console.log('❯ ' + raw)
+    appendLine(`<span class="sign">❯</span> ${raw}`, 'terminal-command')
 
     if (!commands[command]) {
-        console.log(`command not found: "${command}"`)
+        appendLine(`command not found: "${command}"`)
         return
     }
     
