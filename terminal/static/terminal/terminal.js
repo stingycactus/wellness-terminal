@@ -91,6 +91,7 @@ const commands = {
         usage: "get_quests [--new]",
         description: "Generate quests based on your focus areas and difficulty",
         handler: async (args) => {
+            console.log("Generating quests...") // generation is slow, putting as buffer but not permanent solution, if quests are already generated, this still displays even tho they output instantly
             const output = await sendToServer('get_quests', args)
             console.log(output)
         }
@@ -116,6 +117,14 @@ const commands = {
         description: "Clears terminal",
         handler: async (args) => {
             clearLine()
+        }
+    },
+    refresh_quest: {
+        usage: "refresh_quest <number>",
+        handler: async (args) => {
+            console.log("Refreshing quest...")
+            const output = await sendToServer('refresh_quest', args)
+            console.log(output)
         }
     }
 }
