@@ -30,11 +30,15 @@ document.getElementById('sessionStart').innerHTML = formatSessionStart()
 
 function appendLine(text, className = 'terminal-line') {
     const line = document.createElement('div')
-    if (className) line.className = className
+    line.className = className
     line.textContent = text
 
     const commandLine = document.querySelector('.command-line')
     commandLine.parentNode.insertBefore(line, commandLine)
+}
+
+function clearLine() {
+    document.querySelectorAll('.terminal-line').forEach(line => line.remove())
 }
 
 const commands = {
@@ -43,9 +47,8 @@ const commands = {
         usage: "help",
         description: "Shows available commands with info",
         handler: (args) => {
-            console.log("Available commands: ")
+            appendLine("Available commands: ")
             for (const cmd in commands) {
-                console.log(`${commands[cmd].usage} \t ${commands[cmd].description}`)
                 appendLine(`${commands[cmd].usage} — ${commands[cmd].description}`)
             }
         }
@@ -94,6 +97,13 @@ const commands = {
         handler: async (args) => {
             const output = await sendToServer('reset', args)
             console.log(output)
+        }
+    },
+    clear: {
+        usage: "clear",
+        description: "Clears terminal",
+        handler: async (args) => {
+            clearLine()
         }
     }
 }
