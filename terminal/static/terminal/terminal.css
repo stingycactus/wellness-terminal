@@ -6,6 +6,7 @@
   --text-green: #39b54a;
   --text-bright-green: #00ff44;
   --text-dark-green: #006400;
+  --text-white: #ffffff;
   --font-mono: 'Courier New', Courier, monospace;
 }
 
@@ -50,14 +51,25 @@ body {
   gap: 8px;
 }
 
-.window-close, .window-minimize, .window-maximize {
+.window-close,
+.window-minimize,
+.window-maximize {
   width: 12px;
   height: 12px;
   border-radius: 50%;
 }
-.window-close { background-color: #ff5f56; }
-.window-minimize { background-color: #ffbd2e; }
-.window-maximize { background-color: #27c93f; }
+
+.window-close {
+  background-color: #ff5f56;
+}
+
+.window-minimize {
+  background-color: #ffbd2e;
+}
+
+.window-maximize {
+  background-color: #27c93f;
+}
 
 .window-title {
   color: var(--window-title);
@@ -84,4 +96,38 @@ body {
 .session-dot {
   font-size: 1.8em;
   vertical-align: middle;
+}
+
+.command-line {
+  display: flex;
+  align-items: center;
+}
+
+.sign {
+  color: var(--text-green);
+}
+
+.cursor {
+  background-color: #a1a2a5;
+  display: inline-block;
+  width: 8px;
+  height: 15px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.terminal-input {
+  background: transparent;
+  color: var(--text-white);
+  border: none;
+  outline: none;
+  font-family: var(--font-mono);
+  font-size: inherit;
+  flex: 1;
+  margin-left: 6px;
+}
+
+.terminal-input::placeholder {
+  color: var(--text-white);
+  opacity: 0.5;
 }
