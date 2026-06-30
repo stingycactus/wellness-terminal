@@ -80,3 +80,8 @@ body {
   color: var(--text-green);
   margin-bottom: 20px;
 }
+
+.session-dot {
+  font-size: 1.8em;
+  vertical-align: middle;
+}

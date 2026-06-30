@@ -9,7 +9,6 @@
 </head>
 <body>
     <input type="text" id="terminalInput">
-    <script src="{% static 'terminal/terminal.js' %}"></script>
 
     <div class="title">AI WELLNESS TERMINAL</div>
     <div class="subtitle">your daily companion for mental and physical wellbeing</div>
@@ -24,7 +23,9 @@
             <div class="window-status">● connected</div>
         </div>
         <div class="window-body">
-        <div class="session-start">session started - {date} • {time}</div>
+        <div class="session-start" id="sessionStart"></div>
     </div>
+
+    <script src="{% static 'terminal/terminal.js' %}"></script>
 </body>
 </html>
