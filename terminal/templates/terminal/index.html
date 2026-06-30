@@ -4,10 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Wellness Terminal</title>
+    <link rel="stylesheet" href="{% static 'terminal/terminal.css' %}">
 </head>
 <body>
     <input type="text" id="terminalInput">
     <script src="{% static 'terminal/terminal.js' %}"></script>
+
+    <div class="title">AI WELLNESS TERMINAL</div>
+    <div class="subtitle">your daily companion for mental and physical wellbeing</div>
+    <div class="window">
+        <div class="window-header">
+            <div class="window-buttons">
+                <span class="window-close"></span>
+                <span class="window-minimize"></span>
+                <span class="window-maximize"></span>
+            </div>
+            <div class="window-title">wellness-terminal - {user}</div>
+            <div class="window-status">● connected</div>
+        </div>
+        <div class="window-body">
+        <div class="session-start">session started - {date} • {time}</div>
+    </div>
 </body>
 </html>
