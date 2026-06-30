@@ -13,6 +13,18 @@ async function sendToServer(command, args) {
     }
 }
 
+const windowElement = document.querySelector('.window')
+const closeButton = document.getElementById('closeButton')
+const minimizeButton = document.getElementById('minimizeButton')
+
+closeButton.addEventListener('click', () => {
+    windowElement.remove()
+})
+
+minimizeButton.addEventListener('click', () => {
+    windowElement.classList.toggle('minimized')
+})
+
 function formatSessionStart() {
   const now = new Date()
 

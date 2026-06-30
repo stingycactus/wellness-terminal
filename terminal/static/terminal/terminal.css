@@ -67,6 +67,10 @@ body {
   background-color: #ffbd2e;
 }
 
+.window.minimized .window-body {
+  display: none;
+}
+
 .window-maximize {
   background-color: #27c93f;
 }
