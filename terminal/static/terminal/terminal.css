@@ -29,7 +29,6 @@ body {
   color: var(--text-green);
   text-align: center;
   font-size: 0.85rem;
-  margin-bottom: 25px;
 }
 
 .window {
@@ -37,6 +36,7 @@ body {
   border-radius: 8px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
   border: 1px solid #1c1e22;
+  margin: 25px 0 25px 0;
 }
 
 .window-header {
@@ -116,6 +116,10 @@ body {
   vertical-align: middle;
 }
 
+.terminal-line {
+  color: var(--text-green);
+}
+
 .terminal-input {
   background: transparent;
   color: var(--text-white);
@@ -130,4 +134,9 @@ body {
 .terminal-input::placeholder {
   color: var(--text-white);
   opacity: 0.5;
+}
+
+.streak {
+  color: var(--text-dark-green);
+  margin-left: 6px;
 }

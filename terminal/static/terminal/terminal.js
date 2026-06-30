@@ -28,6 +28,15 @@ function formatSessionStart() {
 
 document.getElementById('sessionStart').innerHTML = formatSessionStart()
 
+function appendLine(text, className = 'terminal-line') {
+    const line = document.createElement('div')
+    if (className) line.className = className
+    line.textContent = text
+
+    const commandLine = document.querySelector('.command-line')
+    commandLine.parentNode.insertBefore(line, commandLine)
+}
+
 const commands = {
     // args: string[] — e.g. ['username', 'pass123']
     help: {
@@ -37,6 +46,7 @@ const commands = {
             console.log("Available commands: ")
             for (const cmd in commands) {
                 console.log(`${commands[cmd].usage} \t ${commands[cmd].description}`)
+                appendLine(`${commands[cmd].usage} — ${commands[cmd].description}`)
             }
         }
     },
