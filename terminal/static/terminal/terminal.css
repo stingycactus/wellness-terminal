@@ -63,7 +63,7 @@ body {
   background-color: #ff5f56;
 }
 
-.window-minimize {
+.window-maximize {
   background-color: #ffbd2e;
 }
 
@@ -71,8 +71,17 @@ body {
   display: none;
 }
 
-.window-maximize {
+.window-minimize {
   background-color: #27c93f;
+}
+
+.window.maximized {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
 }
 
 .window-title {
@@ -118,6 +127,10 @@ body {
   height: 15px;
   margin-left: 6px;
   vertical-align: middle;
+}
+
+.terminal-command {
+  color: var(--text-white)
 }
 
 .terminal-line {

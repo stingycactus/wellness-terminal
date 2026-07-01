@@ -16,8 +16,8 @@
         <div class="window-header">
             <div class="window-buttons">
                 <span class="window-close" id="closeButton"></span>
-                <span class="window-minimize" id="minimizeButton"></span>
                 <span class="window-maximize" id="maximizeButton"></span>
+                <span class="window-minimize" id="minimizeButton"></span>
             </div>
             <div class="window-title">wellness-terminal - {user}</div>
             <div class="window-status">● connected</div>
@@ -25,7 +25,7 @@
         <div class="window-body">
             <div class="session-start" id="sessionStart"></div> 
             <div class="command-line">
-                <span class="sign">></span>
+                <span class="sign">❯</span>
                 <input type="text" id="terminalInput" class="terminal-input" placeholder="type a command" autofocus>
             </div>
         </div>
@@ -34,5 +34,4 @@
 
     <script src="{% static 'terminal/terminal.js' %}"></script>
 </body>
-
 </html>
