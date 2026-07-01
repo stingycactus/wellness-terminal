@@ -126,6 +126,13 @@ const commands = {
             const output = await sendToServer('refresh_quest', args)
             console.log(output)
         }
+    },
+    complete_quest: {
+        usage: "complete_quest <number>",
+        handler: async (args) => {
+            const output = await sendToServer('complete_quest', args)
+            console.log(output)
+        }
     }
 }
 
