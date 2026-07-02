@@ -48,8 +48,15 @@ document.getElementById('sessionStart').innerHTML = formatSessionStart()
 function appendLine(text, className = 'terminal-line') {
     const line = document.createElement('div')
     line.className = className
-    line.innerHTML = text
+    line.textContent = text
+    const commandLine = document.querySelector('.command-line')
+    commandLine.parentNode.insertBefore(line, commandLine)
+}
 
+function appendHTML(html, className = 'terminal-line') {
+    const line = document.createElement('div')
+    line.className = className
+    line.innerHTML = html
     const commandLine = document.querySelector('.command-line')
     commandLine.parentNode.insertBefore(line, commandLine)
 }
@@ -61,28 +68,26 @@ function clearLine() {
 
 const commands = {
     // args: string[] — e.g. ['username', 'pass123']
-    help: {
-        usage: "help",
-        description: "Shows available commands with info",
-        handler: (args) => {
-            appendLine("Available commands: ")
-            for (const cmd in commands) {
-                appendLine(`${commands[cmd].usage} — ${commands[cmd].description}`)
-            }
+clear: {
+        usage: "clear",
+        description: "Clears terminal",
+        handler: async (args) => {
+            clearLine()
         }
     },
-    register: {
-        usage: "register <name> <pass>",
-        description: "Register to make an account",
-        handler: (args) => {
-            console.log(`register called — username: ${args[0]}, password: ${args[1]}`)
+    complete_quest: {
+        usage: "complete_quest <number>",
+        handler: async (args) => {
+            const output = await sendToServer('complete_quest', args)
+            output.split('\n').forEach(line => appendLine(line))
         }
     },
-    login: {
-        usage: "login <name> <pass>",
-        description: "Login to an existing account",
-        handler: (args) => {
-            console.log(`login called — username: ${args[0]}, password: ${args[1]}`)
+    difficulty: {
+        usage: "difficulty <easy/medium/hard/...>",
+        description: "Increase difficulty of newly generated quests",
+        handler: async (args) => {
+            const output = await sendToServer('difficulty', args)
+            console.log(output)
         }
     },
     focus: {
@@ -99,30 +104,24 @@ const commands = {
         handler: async (args) => {
             appendLine("Generating quests...") // generation is slow, putting as buffer but not permanent solution, if quests are already generated, this still displays even tho they output instantly
             const output = await sendToServer('get_quests', args)
-            appendLine(output)
+            output.split('\n').forEach(line => appendLine(line))
         }
     },
-    difficulty: {
-        usage: "difficulty <easy/medium/hard/...>",
-        description: "Increase difficulty of newly generated quests",
-        handler: async (args) => {
-            const output = await sendToServer('difficulty', args)
-            console.log(output)
+    help: {
+        usage: "help",
+        description: "Shows available commands with info",
+        handler: (args) => {
+            appendLine("Available commands: ")
+            for (const cmd in commands) {
+                appendLine(`${commands[cmd].usage} — ${commands[cmd].description}`)
+            }
         }
     },
-    reset: { // for debugging
-        usage: "reset",
-        description: "Clears session storage",
-        handler: async (args) => {
-            const output = await sendToServer('reset', args)
-            console.log(output)
-        }
-    },
-    clear: {
-        usage: "clear",
-        description: "Clears terminal",
-        handler: async (args) => {
-            clearLine()
+    login: {
+        usage: "login <name> <pass>",
+        description: "Login to an existing account",
+        handler: (args) => {
+            console.log(`login called — username: ${args[0]}, password: ${args[1]}`)
         }
     },
     refresh_quest: {
@@ -130,13 +129,21 @@ const commands = {
         handler: async (args) => {
             appendLine("Refreshing quest...")
             const output = await sendToServer('refresh_quest', args)
-            appendLine(output)
+            output.split('\n').forEach(line => appendLine(line))
         }
     },
-    complete_quest: {
-        usage: "complete_quest <number>",
+    register: {
+        usage: "register <name> <pass>",
+        description: "Register to make an account",
+        handler: (args) => {
+            console.log(`register called — username: ${args[0]}, password: ${args[1]}`)
+        }
+    },
+    reset: { // for debugging
+        usage: "reset",
+        description: "Clears session storage",
         handler: async (args) => {
-            const output = await sendToServer('complete_quest', args)
+            const output = await sendToServer('reset', args)
             console.log(output)
         }
     }
@@ -149,7 +156,7 @@ async function handleCommand (raw) {
     const command = parts[0].toLowerCase()
     const args = parts.slice(1) // args is from 1st elem in array upwards ['register' 'user' 'pass'] => ['user' 'pass']
 
-    appendLine(`<span class="sign">❯</span> ${raw}`, 'terminal-command')
+    appendHTML(`<span class="sign">❯</span> ${raw}`, 'terminal-command')
 
     if (!commands[command]) {
         appendLine(`command not found: "${command}"`)
